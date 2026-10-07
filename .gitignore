@@ -1,0 +1,26 @@
+# Thư viện tải về (cài lại bằng npm install / composer install)
+frontend/node_modules/
+backend/app/vendor/
+
+# File build
+frontend/.svelte-kit/
+frontend/build/
+
+# Bí mật: KHÔNG đẩy lên (dùng config.example.php làm mẫu)
+backend/app/config.php
+.env
+.env.*
+
+# File sinh ra khi chạy (code tự tạo lại thư mục)
+backend/app/storage/logs/
+backend/app/storage/cache/
+backend/app/storage/backups/
+backend/app/storage/tmp/
+backend/dev-uploads/
+*.log
+
+# Rác hệ điều hành / editor
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

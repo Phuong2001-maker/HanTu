@@ -5,6 +5,11 @@ declare global {
       message: string;
       code?: string;
     }
+    // Trạng thái điều hướng khi mở màn Lật thẻ từ Chọn bài (07 §4.2).
+    interface PageState {
+      shuffle?: boolean;
+      fromStart?: boolean;
+    }
   }
 }
 

@@ -63,7 +63,8 @@ final class Router
     {
         $names = [];
         $regex = preg_replace_callback(
-            '/\{([a-zA-Z_]+)(?::([^}]+))?\}|([^{]+)/',
+            // Biểu thức riêng được phép chứa 1 cấp ngoặc nhọn, ví dụ {token:[A-Za-z0-9_-]{20,100}}.
+            '/\{([a-zA-Z_]+)(?::((?:[^{}]|\{[^{}]*\})+))?\}|([^{]+)/',
             static function (array $m) use (&$names): string {
                 if (($m[3] ?? '') !== '') {
                     return preg_quote($m[3], '#');

@@ -16,6 +16,8 @@ final class RouterAndSqlSplitTest extends TestCase
             ['GET', '/learn/lessons/{id}/flashcards', ['C', 'flash'], 'L'],
             ['POST', '/announcements/{id}/{action:seen|dismiss|click}', ['C', 'ann'], 'L'],
             ['GET', '/go/{id}', ['C', 'go'], 'P', ['csrf' => false]],
+            ['GET', '/auth/invite/{token:[A-Za-z0-9_-]{20,100}}', ['C', 'inv'], 'P'],
+            ['PUT', '/progress/lessons/{id}/{part:[a-z]{2}}', ['C', 'save'], 'L'],
         ]);
     }
 
@@ -34,6 +36,15 @@ final class RouterAndSqlSplitTest extends TestCase
         self::assertSame(['id' => '7', 'action' => 'dismiss'], $m['params']);
 
         self::assertSame(['csrf' => false], Router::match('HEAD', '/go/12')['opts']);
+    }
+
+    public function testRegexParamMayContainQuantifierBraces(): void
+    {
+        $token = str_repeat('a', 43);
+        self::assertSame(['token' => $token], Router::match('GET', '/auth/invite/' . $token)['params']);
+        self::assertSame(['id' => '21', 'part' => 'lt'], Router::match('PUT', '/progress/lessons/21/lt')['params']);
+        $this->expectException(HttpError::class);
+        Router::match('GET', '/auth/invite/short');
     }
 
     public function testNotFoundAndMethodNotAllowed(): void
